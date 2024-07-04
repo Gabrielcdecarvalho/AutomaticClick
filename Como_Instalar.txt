@@ -1,0 +1,4 @@
+Descompacte o arquivo na pasta desejada.
+Na pasta dist copie o arquivo executavel Auto-printer-app.exe
+e crie um atalho onde preferir. 
+

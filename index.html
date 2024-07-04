@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etiqueta Auto Printer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    #pageTitle {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #footer {
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="pageTitle">
+    <p><strong>Etiqueta Auto Printer</strong></p>
+  </div>
+
+  <div>
+    <label for="folderPath">Folder Path:</label>
+    <input type="text" id="folderPath">
+    <button id="startButton">Start</button>
+    <button id="stopButton">Stop</button>
+  </div>
+  <ul id="fileList"></ul>
+  <div id="status"></div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    document.getElementById('startButton').addEventListener('click', () => {
+      const folderPath = document.getElementById('folderPath').value;
+      if (folderPath) {
+        console.log('Sending get-files event with path:', folderPath);
+        ipcRenderer.send('get-files', folderPath);
+      }
+    });
+
+    document.getElementById('stopButton').addEventListener('click', () => {
+      clearInterval(interval);
+      console.log('Interval stopped');
+    });
+
+    ipcRenderer.on('get-files-response', (event, response) => {
+      console.log('Received get-files-response:', response);
+      if (response.success) {
+        files = response.files;
+        fileIndex = 0;
+        document.getElementById('fileList').innerHTML = files.map(file => `<li>${file}</li>`).join('');
+        document.getElementById('status').innerText = `Files opened: 0`;
+
+        interval = setInterval(() => {
+          if (fileIndex < files.length) {
+            console.log('Opening file:', files[fileIndex]);
+            ipcRenderer.send('open-file', files[fileIndex]);
+            fileIndex++;
+            document.getElementById('status').innerText = `Files opened: ${fileIndex}`;
+          } else {
+            clearInterval(interval);
+            alert('All files have been clicked.');
+          }
+        }, 5000);
+      } else {
+        alert(`Error: ${response.message}`);
+      }
+    });
+  </script>
+
+  <div id="footer">
+    <p>Autor: Gabriel Costa de Carvalho</p>
+    <p>Contato: gabrielbiomed@hotmail.com</p>
+  </div>
+</body>
+</html>

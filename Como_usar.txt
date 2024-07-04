@@ -1,0 +1,9 @@
+Copie o endereço (destino) onde será clicado de forma automática os 
+arquivos para impressão. 
+Aperte START.
+A cada 5 segundos será enviado o comando para abertura de um arquivo dentro 
+da pasta. 
+A qualquer momento o processo pode ser interrompitdo pelo botão
+STOP
+ao final aparecerá uma tela que todos os arquivos foram abertos.
+O contador informará quantos arquivos foram abertos para impressão.

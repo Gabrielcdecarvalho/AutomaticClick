@@ -1,0 +1,15 @@
+{
+  "name": "my-electron-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Gabriel Costa de Carvalho",
+  "contact": "gabrielbiomed@hotmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^13.1.7"
+  }
+}
